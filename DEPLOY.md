@@ -1,8 +1,33 @@
 # DEPLOY — публикация и обновление сайта
 
-Сайт опубликован на **surge.sh** — бесплатном статическом хостинге с HTTPS.
+Сайт опубликован на двух площадках:
 
-**Адрес:** https://stable-proxy-node.surge.sh
+- **GitHub Pages (основной, открывается из России без VPN):** https://sachter1999-web.github.io
+  Репозиторий: `sachter1999-web/sachter1999-web.github.io`
+- **surge.sh (зеркало, для заграницы / VPN):** https://stable-proxy-node.surge.sh
+
+---
+
+## Обновить GitHub Pages (основной)
+
+После изменений в `index.html` из папки проекта:
+
+```bash
+cd "/Users/alex/Папка на компьютере/VS CODE"
+git add -A && git commit -m "обновил ссылку прокси"
+git push
+```
+
+Через ~1 минуту сайт обновится. Либо без терминала: на странице репозитория
+**Add file → Upload files**, перетащить новый `index.html`, **Commit changes**.
+
+> Примечание: одноразовый токен `proxy-deploy` после первой публикации нужно
+> отозвать (https://github.com/settings/tokens). Для последующих `git push`
+> GitHub попросит логин/пароль или новый токен.
+
+---
+
+## Обновить surge-зеркало (необязательно)
 
 ---
 
