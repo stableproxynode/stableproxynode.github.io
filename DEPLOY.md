@@ -2,8 +2,8 @@
 
 Сайт опубликован на двух площадках:
 
-- **GitHub Pages (основной, открывается из России без VPN):** https://sachter1999-web.github.io
-  Репозиторий: `sachter1999-web/sachter1999-web.github.io`
+- **GitHub Pages (основной, открывается из России без VPN):** https://stableproxynode.github.io
+  Репозиторий: `stableproxynode/stableproxynode.github.io`
 - **surge.sh (зеркало, для заграницы / VPN):** https://stable-proxy-node.surge.sh
 
 ---
