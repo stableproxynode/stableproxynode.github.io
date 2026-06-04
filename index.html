@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STABLE_PROXY // узел доступа</title>
-<meta name="description" content="Стабильный прокси. Актуальная ссылка всегда здесь — даже при сбоях и блокировках.">
+<title>STABLE_PROXY // прокси для Telegram</title>
+<meta name="description" content="Стабильный прокси для Telegram. Актуальная ссылка всегда здесь — даже при сбоях и блокировках.">
 <style>
   :root{
     --bg:#05080a;
@@ -28,9 +28,7 @@
     line-height:1.5;
     -webkit-font-smoothing:antialiased;
   }
-  /* Матричный фон */
   #matrix{position:fixed;inset:0;z-index:0;opacity:.18}
-  /* Лёгкая «сканлайн» сетка поверх */
   body::after{
     content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
     background:repeating-linear-gradient(0deg,rgba(0,255,156,.03) 0 1px,transparent 1px 3px);
@@ -38,7 +36,6 @@
   }
   .wrap{position:relative;z-index:2;max-width:880px;margin:0 auto;padding:48px 20px 80px}
 
-  /* Шапка-терминал */
   .term-bar{
     display:flex;align-items:center;gap:8px;
     border:1px solid var(--border);border-bottom:none;
@@ -83,6 +80,7 @@
   @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
 
   hr.sep{border:none;border-top:1px dashed var(--border);margin:26px 0}
+  h2.section{color:var(--green);font-size:18px;letter-spacing:1px;margin-bottom:12px}
 
   /* Центральная кнопка подключения */
   .connect-zone{text-align:center;margin:34px 0 10px}
@@ -101,13 +99,12 @@
   .connect-btn:active{transform:translateY(0)}
   .connect-btn::before{content:"⟩ "}
 
-  /* Раскрывающийся блок со «спрятанной» ссылкой */
   .reveal{
     max-height:0;overflow:hidden;opacity:0;
-    transition:max-height .4s ease,opacity .35s ease,margin .3s;
+    transition:max-height .45s ease,opacity .35s ease,margin .3s;
     margin-top:0;
   }
-  .reveal.open{max-height:320px;opacity:1;margin-top:22px}
+  .reveal.open{max-height:400px;opacity:1;margin-top:22px}
   .link-box{
     display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;
     border:1px solid var(--border);background:rgba(0,20,16,.6);
@@ -115,22 +112,54 @@
   }
   .link-box code{
     flex:1;min-width:200px;
-    color:var(--cyan);font-size:14px;word-break:break-all;text-align:left;
+    color:var(--cyan);font-size:13px;word-break:break-all;text-align:left;
     background:rgba(0,0,0,.4);padding:10px 12px;border-radius:8px;
     border:1px dashed var(--border);
   }
   .mini{
     font-family:inherit;cursor:pointer;border:1px solid var(--green);
     background:transparent;color:var(--green);border-radius:8px;
-    padding:10px 16px;font-size:13px;letter-spacing:1px;transition:.15s;
+    padding:10px 16px;font-size:13px;letter-spacing:1px;transition:.15s;white-space:nowrap;
   }
   .mini:hover{background:var(--green);color:var(--bg)}
   .mini.go{background:var(--cyan);border-color:var(--cyan);color:var(--bg)}
   .mini.go:hover{box-shadow:0 0 18px var(--cyan)}
-  .copied{color:var(--green);font-size:12px;margin-top:8px;min-height:14px}
+  .copied{color:var(--green);font-size:12px;margin-top:8px;min-height:14px;text-align:center}
+
+  /* Данные для ручного ввода */
+  .data-rows{display:flex;flex-direction:column;gap:10px}
+  .drow{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    border:1px solid var(--border);background:rgba(0,16,14,.55);
+    border-radius:10px;padding:12px 14px;
+  }
+  .drow .k{color:var(--green);min-width:80px;font-size:13px;letter-spacing:1px}
+  .drow .v{flex:1;min-width:160px;color:var(--cyan);word-break:break-all;font-size:14px;
+    background:rgba(0,0,0,.35);padding:8px 10px;border-radius:7px}
+
+  /* Инструкции */
+  .platforms{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:6px}
+  .pcard{border:1px solid var(--border);border-radius:12px;background:rgba(0,16,14,.55);overflow:hidden}
+  .pcard .head{
+    display:flex;align-items:center;gap:10px;
+    padding:14px 16px;background:rgba(0,255,156,.06);
+    border-bottom:1px solid var(--border);
+  }
+  .pcard .head .ic{font-size:20px}
+  .pcard .head h3{color:var(--cyan);font-size:15px;letter-spacing:1px}
+  .pcard ol{list-style:none;counter-reset:s;padding:14px 16px;margin:0}
+  .pcard li{
+    counter-increment:s;position:relative;padding:7px 0 7px 30px;font-size:13.5px;color:var(--text);
+  }
+  .pcard li::before{
+    content:counter(s);position:absolute;left:0;top:6px;
+    width:20px;height:20px;border-radius:50%;
+    background:var(--green);color:var(--bg);font-size:12px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .pcard li b{color:var(--green)}
 
   /* Поддержка автора */
-  .support h2{color:var(--green);font-size:18px;letter-spacing:1px;margin-bottom:8px}
   .support p.lead{color:var(--text);font-size:14px;margin-bottom:18px}
   .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
   .card{
@@ -140,10 +169,7 @@
   .card:hover{border-color:var(--green);box-shadow:0 0 18px rgba(0,255,156,.18)}
   .card .ic{font-size:22px;margin-bottom:8px}
   .card h3{font-size:15px;color:var(--cyan);margin-bottom:8px;letter-spacing:1px}
-  .card .val{
-    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
-    color:var(--text);font-size:14px;word-break:break-all;
-  }
+  .card .val{display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:var(--text);font-size:14px;word-break:break-all}
   .card .val b{color:var(--green)}
   .placeholder{color:var(--muted);font-style:italic}
 
@@ -160,16 +186,16 @@
 
   <div class="term-bar">
     <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-    <span class="path">user@proxy-node:~$ ./connect.sh</span>
+    <span class="path">user@proxy-node:~$ ./connect_telegram.sh</span>
   </div>
 
   <div class="term-body">
 
     <h1>STABLE_PROXY<span class="blink">_</span></h1>
-    <div class="sub">// узел доступа · 24/7 · обход блокировок</div>
+    <div class="sub">// прокси для Telegram · 24/7 · обход блокировок</div>
 
-    <div class="line"><span class="pfx">$</span> init secure tunnel...</div>
-    <div class="line"><span class="pfx">&gt;</span> шифрование: <span class="ok">AES-256 [OK]</span></div>
+    <div class="line"><span class="pfx">$</span> init telegram tunnel...</div>
+    <div class="line"><span class="pfx">&gt;</span> протокол: <span class="ok">MTProto [OK]</span></div>
     <div class="line"><span class="pfx">&gt;</span> стабильность узла: <span class="ok">99.9% uptime</span></div>
     <div class="line"><span class="pfx">&gt;</span> логи: <span class="ok">не ведутся</span></div>
 
@@ -178,22 +204,23 @@
     <hr class="sep">
 
     <div class="line">
-      Это <span class="ok">стабильный прокси</span> для свободного и быстрого доступа в интернет.
-      Здесь всегда публикуется <span class="warn">актуальная рабочая ссылка</span> —
-      если основной канал упал, словил блокировку или начались перебои,
-      просто вернись на эту страницу и нажми кнопку ниже: ссылка обновляется автоматически.
+      Это <span class="ok">стабильный прокси для Telegram</span> — он возвращает доступ к мессенджеру,
+      когда тот блокируется или работает с перебоями. <b>Прокси работает только для Telegram</b>,
+      а не для всего интернета. Здесь всегда публикуется
+      <span class="warn">актуальная рабочая ссылка</span>: если узел сменился или начались перебои —
+      просто вернись на эту страницу и подключись заново.
     </div>
 
     <!-- ЦЕНТРАЛЬНАЯ КНОПКА ПОДКЛЮЧЕНИЯ -->
     <div class="connect-zone">
-      <div class="hint">нажми, чтобы получить актуальную ссылку</div>
+      <div class="hint">нажми, чтобы подключиться в один тап (откроется Telegram)</div>
       <button class="connect-btn" id="connectBtn">подключить прокси</button>
 
       <div class="reveal" id="reveal">
         <div class="link-box">
-          <code id="proxyLink">tg://resolve?domain=YOUR_PROXY</code>
-          <button class="mini go" id="goBtn">открыть ↗</button>
-          <button class="mini" id="copyBtn">копировать</button>
+          <code id="proxyLink">https://t.me/proxy?...</code>
+          <button class="mini go" id="goBtn">открыть в Telegram ↗</button>
+          <button class="mini" id="copyBtn">копировать ссылку</button>
         </div>
         <div class="copied" id="copied"></div>
       </div>
@@ -201,13 +228,56 @@
 
     <hr class="sep">
 
+    <!-- ДАННЫЕ ДЛЯ РУЧНОГО ВВОДА -->
+    <h2 class="section">⌨ Данные для ручного ввода</h2>
+    <div class="data-rows">
+      <div class="drow"><span class="k">Сервер</span><span class="v" id="dServer"></span><button class="mini" data-copy="server">копировать</button></div>
+      <div class="drow"><span class="k">Порт</span><span class="v" id="dPort"></span><button class="mini" data-copy="port">копировать</button></div>
+      <div class="drow"><span class="k">Secret</span><span class="v" id="dSecret"></span><button class="mini" data-copy="secret">копировать</button></div>
+    </div>
+    <div class="copied" id="dataCopied"></div>
+
+    <hr class="sep">
+
+    <!-- ИНСТРУКЦИИ -->
+    <h2 class="section">📲 Как подключить</h2>
+    <div class="platforms">
+
+      <div class="pcard">
+        <div class="head"><span class="ic"></span><h3>iPhone / Android</h3></div>
+        <ol>
+          <li>Скопируй <b>ссылку</b> выше (кнопка «копировать ссылку»)</li>
+          <li>Открой <b>Telegram</b></li>
+          <li>Зайди в <b>Настройки → Данные и память → Прокси</b></li>
+          <li><b>Удали</b> все прокси, что там есть</li>
+          <li>Нажми <b>Добавить прокси</b></li>
+          <li><b>Разреши</b> вставку из буфера обмена</li>
+          <li>Сверху нажми <b>«Вставить из буфера обмена»</b> — готово ✓</li>
+        </ol>
+      </div>
+
+      <div class="pcard">
+        <div class="head"><span class="ic">💻</span><h3>ПК (Windows / Mac)</h3></div>
+        <ol>
+          <li>Открой <b>Настройки</b></li>
+          <li>Перейди в <b>Продвинутые настройки</b></li>
+          <li>Найди раздел <b>Тип соединения</b></li>
+          <li>Выбери <b>«Использовать собственный прокси»</b> (MTProto)</li>
+          <li>Впиши <b>Сервер</b>, <b>Порт</b> и <b>Secret</b> из блока выше</li>
+          <li>Сохрани — готово ✓</li>
+        </ol>
+      </div>
+
+    </div>
+
+    <hr class="sep">
+
     <!-- ПОДДЕРЖКА АВТОРА -->
     <div class="support">
-      <h2>⚡ Поддержать создателя</h2>
+      <h2 class="section">⚡ Поддержать создателя</h2>
       <p class="lead">
         Прокси работает на чистом энтузиазме и моих личных серверах.
-        Если он тебе помог — поддержи проект, чтобы узлы оставались живыми и быстрыми.
-        Спасибо ❤️
+        Если он тебе помог — поддержи проект, чтобы узлы оставались живыми и быстрыми. Спасибо ❤️
       </p>
       <div class="cards">
         <div class="card">
@@ -231,7 +301,7 @@
 
     <footer>
       <span class="green">[ encrypted ]</span> STABLE_PROXY &copy; 2026 ·
-      сделано с любовью к свободному интернету
+      прокси для Telegram · сделано с любовью к свободному интернету
     </footer>
 
   </div>
@@ -239,74 +309,72 @@
 
 <script>
 /* ============================================================
-   НАСТРОЙКИ — вставь сюда свои данные позже
+   НАСТРОЙКИ — меняй здесь актуальные данные прокси
    ============================================================ */
 const CONFIG = {
-  // Актуальная (спрятанная) ссылка на прокси.
-  // Замени значение ниже, когда узел меняется — это и есть "обновление ссылки".
-  proxyLink: "https://t.me/proxy?server=HOST&port=PORT&secret=SECRET",
+  // Ссылка для кнопки "открыть в Telegram" (один тап = подключение)
+  proxyLinkTg:   "tg://proxy?server=147.45.186.120&port=993&secret=eeddc40a4b36c312e5145b738055774bd97777772e636c6f7564666c6172652e636f6d",
+  // Ссылка для копирования / вставки из буфера (https-вариант)
+  proxyLinkHttp: "https://t.me/proxy?server=147.45.186.120&port=993&secret=eeddc40a4b36c312e5145b738055774bd97777772e636c6f7564666c6172652e636f6d",
 
-  // Данные для доната
-  cardNumber: "",        // напр. "2200 0000 0000 0000"
-  telegramStars: "",     // напр. "https://t.me/your_username"  или  "@your_username"
+  // Данные для ручного ввода
+  server: "147.45.186.120",
+  port:   "993",
+  secret: "eeddc40a4b36c312e5145b738055774bd97777772e636c6f7564666c6172652e636f6d",
+
+  // Поддержка автора (заполни позже)
+  cardNumber:    "",   // напр. "2200 0000 0000 0000"
+  telegramStars: "",   // напр. "@username" или "https://t.me/username"
 };
 
 /* ============================================================
-   Логика (трогать не обязательно)
+   Логика
    ============================================================ */
 (function(){
   const $ = s => document.querySelector(s);
 
-  // --- Кнопка подключения: раскрыть "спрятанную" ссылку ---
-  const reveal = $('#reveal');
-  const proxyCode = $('#proxyLink');
-  proxyCode.textContent = CONFIG.proxyLink;
+  // Подставляем данные
+  $('#proxyLink').textContent = CONFIG.proxyLinkHttp;
+  $('#dServer').textContent = CONFIG.server;
+  $('#dPort').textContent   = CONFIG.port;
+  $('#dSecret').textContent = CONFIG.secret;
 
+  // Кнопка подключения
   $('#connectBtn').addEventListener('click', () => {
-    reveal.classList.add('open');
+    $('#reveal').classList.add('open');
     $('#connectBtn').textContent = 'ссылка получена ✓';
   });
+  $('#goBtn').addEventListener('click', () => { window.location.href = CONFIG.proxyLinkTg; });
+  $('#copyBtn').addEventListener('click', () => copy(CONFIG.proxyLinkHttp, '#copied', 'ссылка скопирована ✓'));
 
-  // Открыть ссылку
-  $('#goBtn').addEventListener('click', () => {
-    window.open(CONFIG.proxyLink, '_blank');
+  // Копирование данных для ручного ввода
+  document.querySelectorAll('[data-copy]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.getAttribute('data-copy');
+      copy(CONFIG[key], '#dataCopied', key + ' скопирован ✓');
+    });
   });
 
-  // Копировать ссылку
-  $('#copyBtn').addEventListener('click', () => {
-    copy(CONFIG.proxyLink, '#copied', 'ссылка скопирована ✓');
-  });
-
-  // --- Донат: карта ---
+  // Донат: карта
   const cardEl = $('#cardNumber');
-  if (CONFIG.cardNumber) {
-    cardEl.textContent = CONFIG.cardNumber;
-    cardEl.classList.remove('placeholder');
-  }
-  $('#copyCard').addEventListener('click', () => {
-    const val = CONFIG.cardNumber || cardEl.textContent;
-    copy(val, '#cardCopied', 'номер скопирован ✓');
-  });
+  if (CONFIG.cardNumber) { cardEl.textContent = CONFIG.cardNumber; cardEl.classList.remove('placeholder'); }
+  $('#copyCard').addEventListener('click', () =>
+    copy(CONFIG.cardNumber || cardEl.textContent, '#cardCopied', 'номер скопирован ✓'));
 
-  // --- Донат: телеграм-звёзды ---
+  // Донат: телеграм
   const stars = $('#starsLink');
   if (CONFIG.telegramStars) {
-    let url = CONFIG.telegramStars;
-    let label = url;
+    let url = CONFIG.telegramStars, label = url;
     if (url.startsWith('@')) { label = url; url = 'https://t.me/' + url.slice(1); }
     else if (url.includes('t.me/')) { label = '@' + url.split('t.me/')[1]; }
-    stars.href = url;
-    stars.textContent = label;
-    stars.classList.remove('placeholder');
+    stars.href = url; stars.textContent = label; stars.classList.remove('placeholder');
   }
 
   function copy(text, msgSel, okMsg){
     navigator.clipboard?.writeText(text).then(() => {
       const m = $(msgSel); m.textContent = okMsg;
       setTimeout(() => m.textContent = '', 2200);
-    }).catch(() => {
-      const m = $(msgSel); m.textContent = 'скопируй вручную: ' + text;
-    });
+    }).catch(() => { $(msgSel).textContent = 'скопируй вручную: ' + text; });
   }
 })();
 
@@ -316,29 +384,22 @@ const CONFIG = {
 (function(){
   const c = document.getElementById('matrix');
   const ctx = c.getContext('2d');
-  let w, h, cols, drops;
+  let w, h, drops;
   const chars = "01アイウエオカ<>{}[]#$%&*/\\=+ンミABCDEF0123456789".split('');
   function resize(){
-    w = c.width = window.innerWidth;
-    h = c.height = window.innerHeight;
-    cols = Math.floor(w / 16);
-    drops = Array(cols).fill(1);
+    w = c.width = window.innerWidth; h = c.height = window.innerHeight;
+    drops = Array(Math.floor(w/16)).fill(1);
   }
   function draw(){
-    ctx.fillStyle = 'rgba(5,8,10,0.08)';
-    ctx.fillRect(0,0,w,h);
-    ctx.fillStyle = '#00ff9c';
-    ctx.font = '15px monospace';
+    ctx.fillStyle = 'rgba(5,8,10,0.08)'; ctx.fillRect(0,0,w,h);
+    ctx.fillStyle = '#00ff9c'; ctx.font = '15px monospace';
     for (let i=0;i<drops.length;i++){
-      const t = chars[Math.floor(Math.random()*chars.length)];
-      ctx.fillText(t, i*16, drops[i]*16);
+      ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*16, drops[i]*16);
       if (drops[i]*16 > h && Math.random() > 0.975) drops[i] = 0;
       drops[i]++;
     }
   }
-  resize();
-  window.addEventListener('resize', resize);
-  setInterval(draw, 55);
+  resize(); window.addEventListener('resize', resize); setInterval(draw, 55);
 })();
 </script>
 </body>
