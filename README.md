@@ -4,8 +4,12 @@
 на прокси**, которая обновляется при сбоях и блокировках, рассказывает о стабильности
 узла и предлагает поддержать автора донатом.
 
-**Живой адрес (основной, открывается из РФ):** https://stableproxynode.github.io
-**Зеркало (для заграницы / VPN):** https://stable-proxy-node.surge.sh
+**Живой адрес (основной, российский хостинг — открывается из РФ без VPN):**
+https://stableproxynode.s3.twcstorage.ru/index.html
+
+**Зеркала:**
+- https://stableproxynode.github.io (GitHub Pages — у части провайдеров РФ блокируется)
+- https://stable-proxy-node.surge.sh (для заграницы / VPN)
 
 ---
 

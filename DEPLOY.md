@@ -1,6 +1,27 @@
 # DEPLOY — публикация и обновление сайта
 
-Сайт опубликован на двух площадках:
+## ⭐ Основной хостинг — Timeweb S3 (российский, открывается из РФ)
+
+**Адрес:** https://stableproxynode.s3.twcstorage.ru/index.html
+Хранилище: S3-бакет `stableproxynode` (Timeweb Cloud, регион ru-1, 1 ₽/мес).
+
+**Обновить сайт** (после правок в `index.html`):
+```bash
+cd "/Users/alex/Папка на компьютере/VS CODE"
+TW_S3_KEY="ВАШ_ACCESS_KEY" TW_S3_SECRET="ВАШ_SECRET_KEY" python3 deploy-s3.py
+```
+Ключи S3 берутся в панели Timeweb → Объектное хранилище → бакет `stableproxynode`.
+Скрипт `deploy-s3.py` подписывает запрос (AWS SigV4) и заливает `index.html`.
+Изменения видны сразу.
+
+> Чтобы получить «красивый» адрес `https://stableproxynode.ru` — нужно довести
+> регистрацию домена `.ru` (оплата + паспортные данные регистранта), затем
+> привязать домен к бакету в панели Timeweb. Сейчас домен в статусе
+> `registration_fail`, поэтому используется прямой адрес хранилища.
+
+---
+
+## Зеркала
 
 - **GitHub Pages (основной, открывается из России без VPN):** https://stableproxynode.github.io
   Репозиторий: `stableproxynode/stableproxynode.github.io`
