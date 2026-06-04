@@ -178,6 +178,12 @@
   }
   .channel-btn:hover{background:var(--cyan);color:var(--bg);box-shadow:0 0 24px rgba(34,211,238,.5);text-shadow:none}
   .channel-btn .ic{font-size:20px}
+  .channel-row{display:flex;align-items:center;gap:10px;justify-content:center;flex-wrap:wrap}
+  .support-note{
+    margin:16px auto 0;max-width:560px;font-size:13px;color:var(--muted);
+    border:1px dashed var(--border);border-radius:10px;padding:12px 14px;background:rgba(255,209,102,.04);
+  }
+  .support-note b{color:var(--green)}
 
   footer{text-align:center;color:var(--muted);font-size:12px;margin-top:40px;letter-spacing:1px}
   footer .green{color:var(--green-dim)}
@@ -279,12 +285,21 @@
     <div class="support" style="text-align:center">
       <h2 class="section" style="text-align:left">⚡ Поддержать проект</h2>
       <p class="lead" style="text-align:left">
-        Прокси держится на личных серверах и энтузиазме. Подпишись на канал —
-        там актуальные ссылки на случай сбоев, новости узлов и возможность поддержать проект. Спасибо ❤️
+        Прокси держится на личных серверах и энтузиазме. В Telegram-канале —
+        актуальные ссылки на случай сбоев, новости узлов и возможность поддержать проект. Спасибо ❤️
       </p>
-      <a class="channel-btn" id="channelLink" href="https://t.me/stableproxynode" target="_blank" rel="noopener">
-        <span class="ic">📣</span> @stableproxynode
-      </a>
+      <div class="channel-row">
+        <a class="channel-btn" id="channelLink" href="#">
+          <span class="ic">📣</span> <span id="channelName">@stableproxynode</span>
+        </a>
+        <button class="mini" id="copyChannel">копировать @ник</button>
+      </div>
+      <div class="copied" id="channelCopied"></div>
+      <p class="support-note">
+        ⚠️ Канал откроется только при работающем Telegram. Если он не грузится —
+        сначала <b>подключи прокси кнопкой выше ☝️</b>, и канал станет доступен.
+        Либо найди <b>@stableproxynode</b> вручную в поиске Telegram.
+      </p>
     </div>
 
     <footer>
@@ -310,8 +325,8 @@ const CONFIG = {
   port:   "993",
   secret: "eeddc40a4b36c312e5145b738055774bd97777772e636c6f7564666c6172652e636f6d",
 
-  // Канал поддержки / актуальных ссылок
-  channel: "https://t.me/stableproxynode",
+  // Канал поддержки / актуальных ссылок (username без @)
+  channel: "stableproxynode",
 };
 
 /* ============================================================
@@ -326,10 +341,12 @@ const CONFIG = {
   $('#dPort').textContent   = CONFIG.port;
   $('#dSecret').textContent = CONFIG.secret;
 
-  // Канал поддержки
-  const ch = $('#channelLink');
-  ch.href = CONFIG.channel;
-  ch.innerHTML = '<span class="ic">📣</span> @' + CONFIG.channel.split('t.me/')[1];
+  // Канал поддержки — deep-link tg:// (открывает приложение, минуя веб t.me)
+  const handle = CONFIG.channel.replace(/^@/, '');
+  $('#channelLink').href = 'tg://resolve?domain=' + handle;
+  $('#channelName').textContent = '@' + handle;
+  $('#copyChannel').addEventListener('click', () =>
+    copy('@' + handle, '#channelCopied', '@ник скопирован — найди его в поиске Telegram ✓'));
 
   // Кнопка подключения
   $('#connectBtn').addEventListener('click', () => {
